@@ -1,0 +1,41 @@
+
+{% extends "base.html" %}
+
+{% block gallery %}
+    {% for photo in photos['photos']['photo'] %}
+        {% if 'url_n' not in photo %}
+            {% continue %}
+        {% end %}
+        {% if 'url_l' not in photo %}
+            {% set photo['url_l'] = photo['url_n'] %}
+        {% end %}
+        {% set lightbox_title = photo['title'] + " <a href=\"https://www.flickr.com/photos/" + photo['owner'] + "/" + photo['id'] + "/\">Flickrで表示する</a>" %}
+
+<div class="thumb col-md-6 col-lg-4 col-xs-6 col-sm-6">
+    <div class="ih-item square effect3 bottom_to_top">
+        <a href="{{ photo['url_l'] }}" data-lightbox="gallery" data-title="{{ lightbox_title }}">
+            <div class="img">
+                <img class="img-responsive" src="{{ photo['url_n'] }}" alt="{{ photo['title'] }}">
+            </div>
+            <div class="info">
+                <h3>{{ photo['title'] }}</h3>
+                <p class="text-right">by {{ photo['ownername'] }}</p>
+            </div>
+        </a>
+    </div>
+</div>
+    {% end %}
+{% end %}
+
+{% block pager %}
+    {% set disabled = "" %}
+    {% set prev =  page - 1 %}
+    {% if 1 >= page %}
+        {% set disabled = "disabled" %}
+        {% set prev = 1 %}
+    {% end %}
+    <ul class="pager">
+        <li class="previous {{ disabled }}"><a href="/page/{{ prev }}">← Prev</a></li>
+        <li class="next"><a href="/page/{{ page + 1 }}">Next →</a></li>
+    </ul>
+{% end %}

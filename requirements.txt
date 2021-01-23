@@ -1,0 +1,4 @@
+certifi==14.05.14
+tornado==3.2
+motor==0.2
+newrelic
